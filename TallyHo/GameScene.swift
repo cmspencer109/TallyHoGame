@@ -97,6 +97,10 @@ class GameScene: SKScene {
                 }
                 
                 if canDrop {
+                    var partAtSquare = self.childNodeWithName("part-\(row)-\(column)") as? GamePart
+                    if partAtSquare != nil {
+                        partAtSquare?.removeFromParent()
+                    }
                     node.move(row, column: column)
                 } else {
                     node.reset()

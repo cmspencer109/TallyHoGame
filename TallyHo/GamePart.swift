@@ -31,6 +31,31 @@ enum PartType {
         }
     }
     
+    func canAttack(part: PartType) -> Bool {
+        switch (self, part) {
+        case (.Bear, .Hunter):
+            return true
+        case (.Bear, .Lumberjack):
+            return true
+        case (.Fox, .Pheasant):
+            return true
+        case (.Fox, .Duck):
+            return true
+        case (.Lumberjack, .Tree):
+            return true
+        case (.Hunter, .Bear):
+            return true
+        case (.Hunter, .Fox):
+            return true
+        case (.Hunter, .Pheasant):
+            return true
+        case (.Hunter, .Duck):
+            return true
+        default:
+            return false
+        }
+    }
+    
     var pieceFront: String {
         switch self {
         case .Bear:
@@ -102,8 +127,8 @@ class GamePart: SKSpriteNode {
     }
     
     func canDrop(row: Int, column: Int) -> Bool {
-        var partAtSquare = self.scene?.childNodeWithName("part-\(row)-\(column)")
-        return partAtSquare == nil
+        var partAtSquare = self.scene?.childNodeWithName("part-\(row)-\(column)") as? GamePart
+        return partAtSquare == nil || type.canAttack(partAtSquare!.type)
     }
     
     func move(row: Int, column: Int) {
